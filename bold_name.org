@@ -1,0 +1,24 @@
+# -*- org-export-allow-bind-keywords: t; -*-
+#+title: Alyssa P. Hacker
+#+options: toc:nil num:nil author:nil date:nil
+#+bibliography: alyssa.bib
+#+cite_export: csl
+#+bind: org-cite-global-bibliography nil
+#+BEGIN_SRC emacs-lisp :exports none :results none
+(defun tmp-make-alyssa-bold (s name _)
+  (let ((given (cdr (assq 'given name)))
+	(family (cdr (assq 'family name))))
+    (when (and (string= given "Alyssa P.")
+	       (string= family "Hacker"))
+      (push '(font-weight . "bold") (car s)))
+    s))
+#+END_SRC
+#+bind: citeproc-name-postprocess-functions (tmp-make-alyssa-bold)
+[cite/n:@*]
+* Publications
+** Books
+#+print_bibliography: :type book
+** Papers in peer-reviewed journals
+#+print_bibliography: :type article
+** Conference papers
+#+print_bibliography: :type inproceedings

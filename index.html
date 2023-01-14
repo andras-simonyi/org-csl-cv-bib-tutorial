@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="András Simonyi" />
+  <title>CV Bibliography with Org-cite and CSL: A Tutorial</title>
+  <style>
+    html {
+      line-height: 1.5;
+      font-family: Georgia, serif;
+      font-size: 20px;
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      word-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 1em;
+      }
+    }
+    @media print {
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, 'Lucida Console', Consolas, monospace;
+      font-size: 85%;
+      margin: 0;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">CV Bibliography with Org-cite and CSL: A Tutorial</h1>
+<p class="author">András Simonyi</p>
+<p class="date">Version 0.1 for Org 9.6 and Citeproc-el 0.9.1 or later</p>
+</header>
+<h1 id="first-attempt">First attempt</h1>
+<p>Alyssa P. Hacker<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> is working on her CV in Org mode. Excited about being able to explore the capabilities of <a href="https://orgmode.org/manual/Citation-handling.html">Org-cite</a>, the built-in citation framework,<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> she starts with the bibliography section. Having already installed the <a href="https://melpa.org/#/citeproc">Citeproc</a> package and planning to export her CV in odt and html in addition to LaTeX pdf, Alyssa chooses the CSL exporter and, using <code>cite/n</code> to add entries to the bibliography without printed citations, writes the following document:</p>
+<pre class="org-mode"><code>#+title: Alyssa P. Hacker
+#+options: toc:nil num:nil author:nil date:nil
+#+bibliography: alyssa.bib
+#+cite_export: csl
+[cite/n:@hacker86if;@bitdiddle87inexact;@bitdiddle88complex;@ator90zero;@hacker91register]
+* Publications
+#+print_bibliography:
+</code></pre>
+<p>A glance at the result of the pdf export:</p>
+<p><img src="./images/basic.png" style="border:1px solid grey" style="width:100.0%" /></p>
+<p>suggests that she is on the right track, but Louis Reasoner, her assistant, has a look at the Org source and isn’t entirely satisfied. “I think <code>alyssa.bib</code> contains all of your publications and nothing else. At least in LaTeX, I would use an asterisk to cite everything in the file instead of listing all keys.” he says.</p>
+<p>Alyssa changes the citation line to</p>
+<pre class="org-mode"><code>[cite/n:@*]
+</code></pre>
+<p>and presses <code>C-u C-c C-e</code> to export again, but the result is disastrous: the <em>Publications</em> section of the exported document now contains a massive amount of books and papers by other authors in addition to her pieces. “You might need to bind the global bibliography to <code>nil</code>.” says Ben Bitdiddle, looking over Alyssa’s shoulder. After a bit of digging in the documentation and some experimentation,<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> Alyssa settles on the following implementation of Louis’s suggestion:</p>
+<pre class="org-mode"><code># -*- org-export-allow-bind-keywords: t; -*-
+#+bind: org-cite-global-bibliography nil
+#+title: Alyssa P. Hacker
+#+options: toc:nil num:nil author:nil date:nil
+#+bibliography: alyssa.bib
+#+cite_export: csl
+[cite/n:@*]
+* Publications
+#+print_bibliography:
+</code></pre>
+<p>As she expected, the exported pdf is now identical to that produced from the first version.</p>
+<h1 id="adding-sections">Adding sections</h1>
+<p>Alyssa is so happy with her progress that she calls her friend Eva Lu Ator over to have a look. “Nice indeed!” says Eva. “But couldn’t you have separate sections according to publication type? It could be useful to emphasize the book.” After another round of documentation digging,<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a> Alyssa changes the part responsible for printing the bibliography to</p>
+<pre class="org-mode"><code>* Publications
+** Books
+#+print_bibliography: :type book
+** Papers in peer-reviewed journals
+#+print_bibliography: :type article
+** Conference papers
+#+print_bibliography: :type inproceedings
+</code></pre>
+<p>exports the document again, and shows the result to Eva who is pretty pleased with the result:</p>
+<p><img src="./images/subsections.png" style="border:1px solid grey" style="width:100.0%" /></p>
+<h1 id="a-final-tweak">A final tweak</h1>
+<p>By now, a small crowd has gathered around Alyssa’s desk, including Lem E. Tweakit, who remarks: “I like when CV bibliographies emphasize the author’s name, especially when most of the pieces are co-authored. I don’t know whether Org can do that, though.” “It should be doable with a Citeproc filter.”<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a> replies Alyssa, and after a while she produces the function</p>
+<div class="sourceCode" id="cb5" data-org-language="emacs-lisp"><pre class="sourceCode commonlisp"><code class="sourceCode commonlisp"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">defun</span><span class="fu"> tmp-make-alyssa-bold </span>(rendered-name name _)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;Make RENDERED-NAME bold when NAME is Alyssa&#39;s.</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="st">Leave RENDERED-NAME unchanged otherwise. Return RENDERED-NAME.&quot;</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">let</span> ((given (<span class="kw">cdr</span> (assq &#39;given name)))</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>        (family (<span class="kw">cdr</span> (assq &#39;family name))))</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    (<span class="kw">when</span> (<span class="kw">and</span> (<span class="kw">string=</span> given <span class="st">&quot;Alyssa P.&quot;</span>)</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>               (<span class="kw">string=</span> family <span class="st">&quot;Hacker&quot;</span>))</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>      (<span class="kw">push</span> &#39;(font-weight . <span class="st">&quot;bold&quot;</span>) (<span class="kw">car</span> rendered-name))))</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  rendered-name)</span></code></pre></div>
+<p>which she adds to the Org file in a source code block and registers as a Citeproc name postprocessing filter with <code>#+bind</code>:</p>
+<pre class="org-mode"><code>#+begin_src emacs-lisp :exports results :results none
+(defun tmp-make-alyssa-bold (s name _)
+  &quot;Make RENDERED-NAME bold when NAME is Alyssa&#39;s.
+Leave RENDERED-NAME unchanged otherwise. Return RENDERED-NAME.&quot;
+  (let ((given (cdr (assq &#39;given name)))
+        (family (cdr (assq &#39;family name))))
+    (when (and (string= given &quot;Alyssa P.&quot;)
+               (string= family &quot;Hacker&quot;))
+      (push &#39;(font-weight . &quot;bold&quot;) (car s)))
+    s))
+#+end_src
+#+bind: citeproc-name-postprocess-functions (tmp-make-alyssa-bold)
+</code></pre>
+<p>Alyssa reexports and looks at the result:</p>
+<p><img src="./images/bold_name.png" style="border:1px solid grey" style="width:100.0%" /></p>
+<p>“The bibliography part is finished.” she declares. “Now I just have to write the rest of my CV… But there are Emacs packages for the missing sections too, right?”</p>
+<h1 id="appendix">Appendix</h1>
+<p>The final form of Alyssa’s CV bibliography (also available as a standalone file):</p>
+<pre class="org-mode"><code>#+title: Alyssa P. Hacker
+#+options: toc:nil num:nil author:nil date:nil
+#+bibliography: alyssa.bib
+#+cite_export: csl
+#+begin_src emacs-lisp :exports results :results none
+(defun tmp-make-alyssa-bold (s name _)
+  &quot;Make RENDERED-NAME bold when NAME is Alyssa&#39;s.
+Leave RENDERED-NAME unchanged otherwise. Return RENDERED-NAME.&quot;
+  (let ((given (cdr (assq &#39;given name)))
+        (family (cdr (assq &#39;family name))))
+    (when (and (string= given &quot;Alyssa P.&quot;)
+               (string= family &quot;Hacker&quot;))
+      (push &#39;(font-weight . &quot;bold&quot;) (car s)))
+    s))
+#+end_src
+#+bind: citeproc-name-postprocess-functions (tmp-make-alyssa-bold)
+[cite/n:@*]
+* Publications
+** Books
+#+print_bibliography: :type book
+** Papers in peer-reviewed journals
+#+print_bibliography: :type article
+** Conference papers
+#+print_bibliography: :type inproceedings
+</code></pre>
+<p>Alyssa’s BibTeX file, <code class="verbatim">alyssa.bib</code>, is available here.</p>
+<section class="footnotes" role="doc-endnotes">
+<hr />
+<ol>
+<li id="fn1" role="doc-endnote"><p>Alyssa and all other characters in the text hail, of course, from the classic <em>Structure and Interpretation of Computer Programs</em>, 2nd ed. (Boston: The MIT Press, 1996) by Abelson and Sussman, which is now available under a Creative Commons Attribution-ShareAlike 4.0 International License at <a href="https://web.mit.edu/6.001/6.037/sicp.pdf">https://web.mit.edu/6.001/6.037/sicp.pdf</a>.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2" role="doc-endnote"><p>In addition to the corresponding <a href="https://orgmode.org/manual/Citation-handling.html">Org Manual chapter</a>, see Kristoffer Balintona's <a href="https://kristofferbalintona.me/posts/202206141852/">Citations in org-mode: Org-cite and Citar</a> and TEC’s <a href="https://blog.tecosaur.com/tmio/2021-07-31-citations.html">TMIO post</a> for good introductions to Org-cite.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3" role="doc-endnote"><p>See the Org Manual’s <a href="https://orgmode.org/manual/Export-Settings.html">Export settings</a> and <a href="https://orgmode.org/manual/Advanced-Export-Configuration.html">Advanced Export Configuration</a> sections on binding buffer-local variables during export. Note that this functionality requires the value of the <code>org-export-allow-bind-keywords</code> variable to be non-<code>nil</code>!<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4" role="doc-endnote"><p>See the Manual’s <a href="https://orgmode.org/manual/Bibliography-options-in-the-_0060_0060biblatex_0027_0027-and-_0060_0060csl_0027_0027-export-processors.html">Bibliography options in the “biblatex” and “csl” export processors</a> section.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn5" role="doc-endnote"><p>A very short description of Citeproc-el’s processing filters can be found in the <a href="https://github.com/andras-simonyi/citeproc-el#hooks">Hooks</a> section of the project’s README.<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+</body>
+</html>
