@@ -6,6 +6,8 @@
 #+cite_export: csl
 #+BEGIN_SRC emacs-lisp :exports results :results none
 (defun tmp-make-alyssa-bold (rendered-name name _)
+    "Make RENDERED-NAME bold when NAME is Alyssa's.
+Leave RENDERED-NAME unchanged otherwise. Return RENDERED-NAME."
   (let ((given (cdr (assq 'given name)))
 	(family (cdr (assq 'family name))))
     (when (and (string= given "Alyssa P.")
