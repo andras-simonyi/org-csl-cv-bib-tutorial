@@ -4,7 +4,7 @@
 #+bibliography: alyssa.bib
 #+cite_export: csl
 #+bind: org-cite-global-bibliography nil
-#+BEGIN_SRC emacs-lisp :exports none :results none
+#+BEGIN_SRC emacs-lisp :exports results :results none
 (defun tmp-make-alyssa-bold (s name _)
   (let ((given (cdr (assq 'given name)))
 	(family (cdr (assq 'family name))))
