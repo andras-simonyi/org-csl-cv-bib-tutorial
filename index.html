@@ -288,10 +288,12 @@ Leave RENDERED-NAME unchanged otherwise. Return RENDERED-NAME.&quot;
 <p>“The bibliography part is finished.” she declares. “Now I just have to write the rest of my CV… But there are Emacs packages for the missing sections too, right?”</p>
 <h1 id="appendix">Appendix</h1>
 <p>The final form of Alyssa’s CV bibliography (also available as a <a href="https://raw.githubusercontent.com/andras-simonyi/org-csl-cv-bib-tutorial/master/alyssa-cv-bib.org">standalone file</a>):</p>
-<pre class="org-mode"><code>#+title: Alyssa P. Hacker
+<pre class="org-mode"><code># -*- org-export-allow-bind-keywords: t; -*-
+#+title: Alyssa P. Hacker
 #+options: toc:nil num:nil author:nil date:nil
 #+bibliography: alyssa.bib
 #+cite_export: csl
+#+bind: org-cite-global-bibliography nil
 #+begin_src emacs-lisp :exports results :results none
 (defun tmp-make-alyssa-bold (s name _)
   &quot;Make RENDERED-NAME bold when NAME is Alyssa&#39;s.
