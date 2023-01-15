@@ -2,8 +2,8 @@
 #+title: Alyssa P. Hacker
 #+options: toc:nil num:nil author:nil date:nil
 #+bibliography: alyssa.bib
-#+cite_export: csl
 #+bind: org-cite-global-bibliography nil
+#+cite_export: csl
 #+BEGIN_SRC emacs-lisp :exports results :results none
 (defun tmp-make-alyssa-bold (rendered-name name _)
   (let ((given (cdr (assq 'given name)))
