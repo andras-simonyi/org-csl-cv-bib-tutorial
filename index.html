@@ -271,15 +271,15 @@
 <span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  rendered-name)</span></code></pre></div>
 <p>which she adds to the Org file in a source code block and registers as a Citeproc name postprocessing filter with <code>#+bind</code>:</p>
 <pre class="org-mode"><code>#+begin_src emacs-lisp :exports results :results none
-(defun tmp-make-alyssa-bold (s name _)
+(defun tmp-make-alyssa-bold (rendered-name name _)
   &quot;Make RENDERED-NAME bold when NAME is Alyssa&#39;s.
 Leave RENDERED-NAME unchanged otherwise. Return RENDERED-NAME.&quot;
   (let ((given (cdr (assq &#39;given name)))
         (family (cdr (assq &#39;family name))))
     (when (and (string= given &quot;Alyssa P.&quot;)
                (string= family &quot;Hacker&quot;))
-      (push &#39;(font-weight . &quot;bold&quot;) (car s)))
-    s))
+      (push &#39;(font-weight . &quot;bold&quot;) (car rendered-name)))
+    rendered-name))
 #+end_src
 #+bind: citeproc-name-postprocess-functions (tmp-make-alyssa-bold)
 </code></pre>
@@ -295,15 +295,15 @@ Leave RENDERED-NAME unchanged otherwise. Return RENDERED-NAME.&quot;
 #+cite_export: csl
 #+bind: org-cite-global-bibliography nil
 #+begin_src emacs-lisp :exports results :results none
-(defun tmp-make-alyssa-bold (s name _)
+(defun tmp-make-alyssa-bold (rendered-name name _)
   &quot;Make RENDERED-NAME bold when NAME is Alyssa&#39;s.
 Leave RENDERED-NAME unchanged otherwise. Return RENDERED-NAME.&quot;
   (let ((given (cdr (assq &#39;given name)))
         (family (cdr (assq &#39;family name))))
     (when (and (string= given &quot;Alyssa P.&quot;)
                (string= family &quot;Hacker&quot;))
-      (push &#39;(font-weight . &quot;bold&quot;) (car s)))
-    s))
+      (push &#39;(font-weight . &quot;bold&quot;) (car rendered-name)))
+    rendered-name))
 #+end_src
 #+bind: citeproc-name-postprocess-functions (tmp-make-alyssa-bold)
 [cite/n:@*]
