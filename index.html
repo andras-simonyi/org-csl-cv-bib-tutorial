@@ -234,7 +234,7 @@
 <p>Alyssa changes the citation line to</p>
 <pre class="org-mode"><code>[cite/n:@*]
 </code></pre>
-<p>and presses <code>C-u C-c C-e</code> to export again, but the result is disastrous: the <em>Publications</em> section of the exported document now contains a massive amount of books and papers by other authors in addition to her pieces. “You might need to bind the global bibliography to <code>nil</code>.” suggests Ben Bitdiddle, looking over Alyssa’s shoulder. After a bit of digging in the documentation and some experimentation,<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> Alyssa settles on the following implementation of Louis’s suggestion:</p>
+<p>and presses <code>C-u C-c C-e</code> to export again, but the result is disastrous: the <em>Publications</em> section of the exported document now contains a massive amount of books and papers by other authors in addition to her pieces. “You might need to bind the global bibliography to <code>nil</code>.” says Ben Bitdiddle, looking over Alyssa’s shoulder. After a bit of digging in the documentation and some experimentation,<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> Alyssa settles on the following implementation of Louis’s suggestion:</p>
 <pre class="org-mode"><code># -*- org-export-allow-bind-keywords: t; -*-
 #+title: Alyssa P. Hacker
 #+options: toc:nil num:nil author:nil date:nil
