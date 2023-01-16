@@ -233,7 +233,7 @@
 <p>A glance at the result of the <span style="font-variant: small-caps">pdf</span> export:</p>
 <p><img src="./images/basic.png" style="border:1px solid grey" style="width:100.0%" /></p>
 <p>suggests that she is on the right track, but Louis Reasoner, her assistant, has a look at the Org source and isn’t entirely satisfied. “I think <code>alyssa.bib</code> contains all of your publications and nothing else. At least in LaTeX, I would use an asterisk to cite everything in the file instead of listing all keys.” he says.</p>
-<p>Alyssa changes the citation line to</p>
+<p>Alyssa changes the citation to</p>
 <pre class="org"><code>[cite/n:@*]
 </code></pre>
 <p>and presses <code>C-u C-c C-e</code> to export again, but the result is disastrous: the <em>Publications</em> section of the exported document now contains a massive amount of books and papers by other authors in addition to her pieces. “You might need to bind the global bibliography to <code>nil</code>.” says Ben Bitdiddle, looking over Alyssa’s shoulder. After a bit of digging in the documentation and some experimentation,<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a> Alyssa settles on the following implementation of Louis’s suggestion:</p>
