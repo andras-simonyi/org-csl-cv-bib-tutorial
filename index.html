@@ -216,16 +216,17 @@
 <header id="title-block-header">
 <h1 class="title">CV Bibliography with Org-cite and CSL: A Tutorial</h1>
 <p class="author">András Simonyi</p>
-<p class="date">For Org 9.6 and Citeproc-el 0.9.1 or later; license: <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a></p>
+<p class="date">Version 0.9 (2023-01-16) for Org 9.6 and Citeproc-el 0.9.1 or later<br/>License: <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a></p>
 </header>
 <p>Alyssa P. Hacker<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> is working on her <span style="font-variant: small-caps">cv</span> in Org mode. Excited about being able to explore the capabilities of <a href="https://orgmode.org/manual/Citation-handling.html">Org-cite</a>, the built-in citation framework,<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> she starts with the bibliography section.</p>
 <h1 id="first-attempt">First attempt</h1>
 <p>Having already installed its dependency, the <a href="https://melpa.org/#/citeproc">Citeproc</a> package, and planning to export her <span style="font-variant: small-caps">cv</span> in <span style="font-variant: small-caps">odt</span> and <span style="font-variant: small-caps">html</span> in addition to LaTeX-based <span style="font-variant: small-caps">pdf</span>, Alyssa chooses the export format agnostic <span style="font-variant: small-caps">csl</span> citation export processor,<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> and, using <code>cite/n</code> to add entries to the bibliography without printed citations, writes the following document:</p>
-<pre class="org-mode"><code>#+title: Alyssa P. Hacker
+<pre class="org"><code>#+title: Alyssa P. Hacker
 #+options: toc:nil num:nil author:nil date:nil
 #+bibliography: alyssa.bib
 #+cite_export: csl
-[cite/n:@hacker86if;@bitdiddle87inexact;@bitdiddle88complex;@ator90zero;@hacker91register]
+[cite/n:@hacker86if;@bitdiddle87inexact;@bitdiddle88complex;
+@ator90zero;@hacker91register]
 * Publications
 #+print_bibliography:
 </code></pre>
@@ -233,10 +234,10 @@
 <p><img src="./images/basic.png" style="border:1px solid grey" style="width:100.0%" /></p>
 <p>suggests that she is on the right track, but Louis Reasoner, her assistant, has a look at the Org source and isn’t entirely satisfied. “I think <code>alyssa.bib</code> contains all of your publications and nothing else. At least in LaTeX, I would use an asterisk to cite everything in the file instead of listing all keys.” he says.</p>
 <p>Alyssa changes the citation line to</p>
-<pre class="org-mode"><code>[cite/n:@*]
+<pre class="org"><code>[cite/n:@*]
 </code></pre>
 <p>and presses <code>C-u C-c C-e</code> to export again, but the result is disastrous: the <em>Publications</em> section of the exported document now contains a massive amount of books and papers by other authors in addition to her pieces. “You might need to bind the global bibliography to <code>nil</code>.” says Ben Bitdiddle, looking over Alyssa’s shoulder. After a bit of digging in the documentation and some experimentation,<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a> Alyssa settles on the following implementation of Louis’s suggestion:</p>
-<pre class="org-mode"><code># -*- org-export-allow-bind-keywords: t; -*-
+<pre class="org"><code># -*- org-export-allow-bind-keywords: t; -*-
 #+title: Alyssa P. Hacker
 #+options: toc:nil num:nil author:nil date:nil
 #+bibliography: alyssa.bib
@@ -249,7 +250,7 @@
 <p>As she expected, the exported <span style="font-variant: small-caps">pdf</span> is now identical to that produced from the first version.</p>
 <h1 id="adding-sections">Adding sections</h1>
 <p>Alyssa is so happy with her progress that she calls her friend Eva Lu Ator over to have a look. “Nice indeed!” says Eva. “But couldn’t you have separate sections according to publication type? It could be a subtle way of emphasizing your book.” After another round of documentation digging,<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a> Alyssa changes the part responsible for printing the bibliography to</p>
-<pre class="org-mode"><code>* Publications
+<pre class="org"><code>* Publications
 ** Books
 #+print_bibliography: :type book
 ** Papers in peer-reviewed journals
@@ -271,7 +272,7 @@
 <span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>      (<span class="kw">push</span> &#39;(font-weight . <span class="st">&quot;bold&quot;</span>) (<span class="kw">car</span> rendered-name))))</span>
 <span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  rendered-name)</span></code></pre></div>
 <p>which she adds to the Org file in a source code block and registers as a Citeproc name postprocessing filter with <code>#+bind</code>:</p>
-<pre class="org-mode"><code>#+begin_src emacs-lisp :exports results :results none
+<pre class="org"><code>#+begin_src emacs-lisp :exports results :results none
 (defun tmp-make-alyssa-bold (rendered-name name _)
   &quot;Make RENDERED-NAME bold when NAME is Alyssa&#39;s.
 Leave RENDERED-NAME unchanged otherwise. Return RENDERED-NAME.&quot;
@@ -284,12 +285,12 @@ Leave RENDERED-NAME unchanged otherwise. Return RENDERED-NAME.&quot;
 #+end_src
 #+bind: citeproc-name-postprocess-functions (tmp-make-alyssa-bold)
 </code></pre>
-<p>Alyssa reexports to <span style="font-variant: small-caps">pdf</span>:</p>
+<p>Alyssa takes a look at the reexported <span style="font-variant: small-caps">pdf</span>:</p>
 <p><img src="./images/bold_name.png" style="border:1px solid grey" style="width:100.0%" /></p>
-<p>and checks the <span style="font-variant: small-caps">html</span> and <span style="font-variant: small-caps">odt</span> versions as well, which are also as expected. “The bibliography part is finished.” she declares. “Now I just have to write the rest of my <span style="font-variant: small-caps">cv</span>… But there are Emacs packages for the missing sections too, right?”</p>
+<p>and checks the <span style="font-variant: small-caps">html</span> and <span style="font-variant: small-caps">odt</span> versions as well, which are also as expected. “The bibliography part is finished.” she declares. “Now I just have to write the rest of my <span style="font-variant: small-caps">cv</span>… But there are Emacs packages for the missing sections too, right?”<a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a></p>
 <h1 id="appendix">Appendix</h1>
 <p>The final form of Alyssa’s <span style="font-variant: small-caps">cv</span> bibliography (also available as a <a href="https://raw.githubusercontent.com/andras-simonyi/org-csl-cv-bib-tutorial/master/alyssa-cv-bib.org">standalone file</a>):</p>
-<pre class="org-mode"><code># -*- org-export-allow-bind-keywords: t; -*-
+<pre class="org"><code># -*- org-export-allow-bind-keywords: t; -*-
 #+title: Alyssa P. Hacker
 #+options: toc:nil num:nil author:nil date:nil
 #+bibliography: alyssa.bib
@@ -316,16 +317,17 @@ Leave RENDERED-NAME unchanged otherwise. Return RENDERED-NAME.&quot;
 ** Conference papers
 #+print_bibliography: :type inproceedings
 </code></pre>
-<p>Alyssa’s BibTeX file, <code class="verbatim">alyssa.bib</code>, is available <a href="https://github.com/andras-simonyi/org-csl-cv-bib-tutorial/raw/master/alyssa.bib">here</a>.</p>
+<p>Alyssa’s BibTeX file, <code class="verbatim">alyssa.bib</code>, can be downloaded from <a href="https://github.com/andras-simonyi/org-csl-cv-bib-tutorial/raw/master/alyssa.bib">here</a>. The three exported versions are also available: <a href="https://raw.githubusercontent.com/andras-simonyi/org-csl-cv-bib-tutorial/master/alyssa-cv-bib.pdf"><span style="font-variant: small-caps">pdf</span></a>, <a href="./alyssa-cv-bib.html"><span style="font-variant: small-caps">html</span></a> and <a href="https://raw.githubusercontent.com/andras-simonyi/org-csl-cv-bib-tutorial/master/alyssa-cv-bib.odt"><span style="font-variant: small-caps">odt</span></a>.</p>
 <section class="footnotes" role="doc-endnotes">
 <hr />
 <ol>
 <li id="fn1" role="doc-endnote"><p>Alyssa and all other characters in the text hail, of course, from the classic <em>Structure and Interpretation of Computer Programs</em>, 2nd ed. (Boston: The MIT Press, 1996) by Abelson and Sussman, which is now available under a Creative Commons Attribution-ShareAlike 4.0 International License at <a href="https://web.mit.edu/6.001/6.037/sicp.pdf">https://web.mit.edu/6.001/6.037/sicp.pdf</a>.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn2" role="doc-endnote"><p>In addition to the corresponding <a href="https://orgmode.org/manual/Citation-handling.html">Org Manual chapter</a>, see Kristoffer Balintona's <a href="https://kristofferbalintona.me/posts/202206141852/">Citations in org-mode: Org-cite and Citar</a> and TEC’s <a href="https://blog.tecosaur.com/tmio/2021-07-31-citations.html">TMIO post</a> for good introductions to Org-cite.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn3" role="doc-endnote"><p>Org-cite’s default ‘basic’ citation processor is also export format agnostic, but it does not (yet?) support all of the features described by this tutorial.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn4" role="doc-endnote"><p>See the Org Manual’s <a href="https://orgmode.org/manual/Export-Settings.html">Export settings</a> and <a href="https://orgmode.org/manual/Advanced-Export-Configuration.html">Advanced Export Configuration</a> sections on binding buffer-local variables during export. Note that this functionality requires the value of the <code>org-export-allow-bind-keywords</code> variable to be non-<code>nil</code>!<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3" role="doc-endnote"><p>Org-cite’s default ‘basic’ citation processor is also export format agnostic, but it does not (yet?) support all of the features used in this tutorial.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4" role="doc-endnote"><p>See the Org Manual’s <a href="https://orgmode.org/manual/Export-Settings.html">Export settings</a> and <a href="https://orgmode.org/manual/Advanced-Export-Configuration.html">Advanced Export Configuration</a> sections on binding buffer-local variables during export. Note that this functionality requires the value of the <code>org-export-allow-bind-keywords</code> variable to be non-<code>nil</code>, which can be done globally (for instance, in an init file) or in a file-local way as in Alyssa's solution below (see the <a href="https://www.gnu.org/software/emacs/manual/html_node/emacs/Specifying-File-Variables.html">Specifying File Variables</a> section of the Emacs Manual for details).<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn5" role="doc-endnote"><p>See the Manual’s <a href="https://orgmode.org/manual/Bibliography-options-in-the-_0060_0060biblatex_0027_0027-and-_0060_0060csl_0027_0027-export-processors.html">Bibliography options in the “biblatex” and “csl” export processors</a> section.<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn6" role="doc-endnote"><p>A very short description of Citeproc-el’s processing filters can be found in the <a href="https://github.com/andras-simonyi/citeproc-el#hooks">Hooks</a> section of the project’s README.<a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn7" role="doc-endnote"><p>Thanks to Bruce D’Arcus for comments on an earlier version of this tutorial.<a href="#fnref7" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section>
 </body>
